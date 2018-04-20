@@ -1,5 +1,5 @@
-# MaaS360_API
-This is a MaaS360 API sample which requests a MaaS360 token and pull the user and device data from your MaaS360 Account.
+# MaaS360_API - Node js
+This is a MaaS360 API sample which requests a MaaS360 authentication token and pull the user and device data from your MaaS360 Account.
 
 
 Type “npm install” in your terminal to use the “package.json” to download the necessary dependencies and get started.
