@@ -81,8 +81,8 @@ app.post('/index', urlencodedParser, function (req, res) {
     appID = req.body.appID; //"com.30081687.api",//appID,
     appVersion = req.body.appVersion; //"1.0",//appVersion,
     appAccessKey = req.body.appAccessKey; //"7I6067cMtT",//appAccessKey,
-    userName = req.body.userName; //"jonas.schindzielorz1@gmail.com",//userName,
-    password = req.body.password; //"090912Ana."//password    
+    userName = req.body.userName; //userName,
+    password = req.body.password;//password    
 
     var postBody = {
         "authRequest": {
@@ -92,8 +92,8 @@ app.post('/index', urlencodedParser, function (req, res) {
                 "appID": req.body.appID, //"com.30081687.api",//appID,
                 "appVersion": req.body.appVersion, //"1.0",//appVersion,
                 "appAccessKey": req.body.appAccessKey, //"7I6067cMtT",//appAccessKey,
-                "userName": req.body.userName, //"jonas.schindzielorz1@gmail.com",//userName,
-                "password": req.body.password, //"090912Ana."//password
+                "userName": req.body.userName, //userName,
+                "password": req.body.password, //password
             }
         }
     };
