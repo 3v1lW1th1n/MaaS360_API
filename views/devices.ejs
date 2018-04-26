@@ -10,6 +10,31 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
         crossorigin="anonymous">
 
+
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+             * element that contains the map. */
+
+        #map {
+            height: 40%;
+            width: 40%;
+            ;
+        }
+
+        /* Optional: Makes the sample page fill the window. */
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+    <script>
+        function coppyApps() {
+        }
+    </script>
+
     <title>Users</title>
 </head>
 
@@ -31,54 +56,145 @@
                         - Devices -
                     </option>
                     <% deviceArray.forEach(function (item) {%>
-                        <option>
-                            <%= item.maas360DeviceID%>
+                        <option value="<%= item.maas360DeviceID %>">
+                            <%= item.username %> |
+                                <%= item.maas360DeviceID %>
                         </option>
                         <% });%>
                 </select>
             </div>
         </div>
 
-        <ul class="list-group">
-            <li class="list-group-item disabled">
-                Device Name:
-                <small>
-                    <%= selectedDevice.deviceName%>
-                </small>
-            </li>
-            <li class="list-group-item disabled">
-                MaaS360 Device ID:
-                <small>
-                    <%= selectedDevice.maas360DeviceID%>
-                </small>
-            </li>
-            <li class="list-group-item disabled">
-                Assigned to:
-                <small>
-                    <%= selectedDevice.username%>
-                </small>
-            </li>
-            <li class="list-group-item disabled">
-                Manufacturer:
-                <small>
-                    <%= selectedDevice.manufacturer%>
-                </small>
-            </li>
-            <li class="list-group-item disabled">
-                Operating System:
-                <small>
-                    <%= selectedDevice.osName%>
-                </small>
-            </li>
-        </ul>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <td>
+                        <ul class="list-group">
+                            <li class="list-group-item disabled">
+                                Device Name:
+                                <small>
+                                    <%= selectedDevice.deviceName%>
+                                </small>
+                            </li>
+                            <li class="list-group-item disabled">
+                                MaaS360 Device ID:
+                                <small>
+                                    <%= selectedDevice.maas360DeviceID%>
+                                </small>
+                            </li>
+                            <li class="list-group-item disabled">
+                                Assigned to:
+                                <small>
+                                    <%= selectedDevice.username%>
+                                </small>
+                            </li>
+                            <li class="list-group-item disabled">
+                                Manufacturer:
+                                <small>
+                                    <%= selectedDevice.manufacturer%>
+                                </small>
+                            </li>
+                            <li class="list-group-item disabled">
+                                Operating System:
+                                <small>
+                                    <%= selectedDevice.osName%>
+                                </small>
+                            </li>
+                            <li class="list-group-item disabled">
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#appList">
+                                    Show App List
+                                </button>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            </thead>
+            </tbody>
+        </table>
 
-        <!-- Optional JavaScript -->
-        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
-            crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
-            crossorigin="anonymous"></script>
+
+        <div class="modal fade" id="appList" tabindex="-1" role="dialog" aria-labelledby="appListTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="appListTitle">App List: </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <ul class="list-group" id="appList">
+                            <% appArray.forEach(function (item) { %>
+                                <li class="list-group-item">
+                                    <small>
+                                        <%= item %>
+                                    </small>
+                                </li>
+                                <%}); %>
+                        </ul>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-outline-secondary" onclick="coppyApps()">Copy List</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br>
+        <% if(cellularData.error == ""){%>
+            <div class="container-fluid" id="map"></div>
+            <%}else{%>
+                <div class="container-fluid">
+                    <h3>
+                        <%= cellularData.error %>
+                    </h3>
+                    <%}%>
+
+                </div>
+
+                <!-- Maps script -->
+                <script>
+                    var map;
+                    var image =
+                        "https://www.viettablet.com//image/cache/data/casio/casio-gzone-ca-201l-1-128x128.png"
+                    var latitude = "<%= cellularData.lat %>";
+                    var longitude = "<%= cellularData.long %>";
+
+                    function initMap() {
+                        map = new google.maps.Map(document.getElementById('map'), {
+                            center: {
+                                lat: parseFloat(latitude),
+                                lng: parseFloat(longitude)
+                            },
+                            zoom: 8
+                        });
+
+                        var marker = new google.maps.Marker({
+                            position: {
+                                lat: parseFloat(latitude),
+                                lng: parseFloat(longitude)
+                            },
+                            map: map,
+                            icon: image
+                        });
+                    }
+                </script>
+
+                <!-- Maps API -->
+                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCyHSB-tg0gfL6K9LNRmDLKm_sORNaQatk&callback=initMap" async
+                    defer></script>
+
+
+                <!-- Optional JavaScript -->
+                <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+                <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+                    crossorigin="anonymous"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+                    crossorigin="anonymous"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+                    crossorigin="anonymous"></script>
 </body>
+
 </html>
