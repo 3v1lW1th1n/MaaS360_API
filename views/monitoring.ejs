@@ -25,11 +25,16 @@
       <table class="table table-hover">
         <tbody >
             <% cellularDataArray.forEach(function (item) { %>
+
             <tr class="p-3 mb-2 bg-danger text-white">
+            <% if(item.error == ""){ %>
             <td>Connection Status: <%= item.status %></td>
             <td>Last located time: <%= item.loctime %></td>
             <td>Device ID: <%= item.maas360DeviceID %></td>
             <td>Device User: <%= item.user %></td>
+            <% }else{ %>
+              <td><h5><%= item.error %></h5> </td>
+            <% } %>
           </tr>
           <%}); %>  
         </tbody>

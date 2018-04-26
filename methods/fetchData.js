@@ -20,8 +20,8 @@ methods.getAuthToken = async function (loginData) {
                 "appID": loginData.appID, //"com.30081687.api", //appID,
                 "appVersion": loginData.appVersion, //"1.0", //appVersion,
                 "appAccessKey": loginData.appAccessKey, //"7I6067cMtT", //appAccessKey,
-                "userName": loginData.userName, //"jonas.schindzielorz1@gmail.com", //userName,
-                "password": loginData.password, //"090912Ana." //password
+                "userName": loginData.userName, //userName,
+                "password": loginData.password, //password
             }
         }
     };
@@ -171,15 +171,15 @@ methods.getcellularData = async function (authToken, loginData, deviceID) {
     const data = await response.text();
 
     var doc = new DOMParser().parseFromString(data);
-    if (deviceID != "Android9997bdb5203d6913") {
-        //!!!! have to find a solution to check the tag for location without a shordump !!!!
+
+    if (doc.getElementsByTagName("latitude").length == "0") {
 
         var cellularData = {
             lat: "",
             long: "",
             accuracy: "0",
             loctime: "0",
-            error: "Location doesnt excist"
+            error: "cellular Data can not load"
         }
 
     } else {
